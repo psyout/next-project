@@ -14,27 +14,30 @@ interface User {
 }
 
 const UsersPage = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+    cache: "no-store",
+  });
   const users: User[] = await res.json();
 
   return (
     <>
       <h1>Users</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <strong>Name:</strong> {user.name}
-            <br />
-            <strong>Email:</strong> {user.email}
-            <br />
-            <strong>Address:</strong> {user.address.street}, {user.address.city}
-            ,
-            <small>
-              <i>{user.address.zipcode}</i>
-            </small>
-          </li>
-        ))}
-      </ul>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
